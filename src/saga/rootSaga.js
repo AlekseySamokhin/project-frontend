@@ -7,8 +7,20 @@ import { payment } from './payment';
 import { tracking } from './tracking';
 import { personality } from './personality';
 
+import { watcherTest } from './test';
+
 function* rootSaga() {
-  yield all([browsers(), languages(), teams(), help(), payment(), tracking(), personality()]);
+  yield all([
+    browsers(),
+    languages(),
+    teams(),
+    help(),
+    payment(),
+    tracking(),
+    personality(),
+
+    watcherTest(),
+  ]);
 }
 
 export default rootSaga;

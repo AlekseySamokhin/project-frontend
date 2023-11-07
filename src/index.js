@@ -58,7 +58,7 @@ ReactDOM.render(
     <HelmetProvider>
       <ReduxProvider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
             <SettingsProvider>
               <CollapseDrawerProvider>
                 <BrowserRouter>
@@ -66,7 +66,7 @@ ReactDOM.render(
                 </BrowserRouter>
               </CollapseDrawerProvider>
             </SettingsProvider>
-          </LocalizationProvider>
+          {/* </LocalizationProvider> */}
         </PersistGate>
       </ReduxProvider>
     </HelmetProvider>

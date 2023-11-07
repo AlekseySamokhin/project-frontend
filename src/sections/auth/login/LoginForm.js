@@ -9,18 +9,24 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import SvgIconStyle from '../../../components/SvgIconStyle';
+import { useDispatch } from 'react-redux';
+import { testRequested } from '../../../redux/slices/test';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const { login } = useAuth();
 
+  const dispatch = useDispatch();
+
   const isMountedRef = useIsMountedRef();
 
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    email: Yup.string()
+      .email('Email must be a valid email address')
+      .required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -44,6 +50,10 @@ export default function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
+      const userData = { email: data.email, password: data.password }
+  
+      dispatch(testRequested(userData));
+
       await login(data.email, data.password);
     } catch (error) {
       console.error(error);
@@ -59,7 +69,9 @@ export default function LoginForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
+        {!!errors.afterSubmit && (
+          <Alert severity="error">{errors.afterSubmit.message}</Alert>
+        )}
 
         <RHFTextField
           name="email"
@@ -67,7 +79,10 @@ export default function LoginForm() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SvgIconStyle src={'/assets/icons/login-unprotected/ic_login.svg'} sx={{ width: 18, height: 18 }} />
+                <SvgIconStyle
+                  src={'/assets/icons/login-unprotected/ic_login.svg'}
+                  sx={{ width: 18, height: 18 }}
+                />
               </InputAdornment>
             ),
           }}
@@ -81,13 +96,21 @@ export default function LoginForm() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SvgIconStyle src={`/assets/icons/login-unprotected/ic_password.svg`} sx={{ width: 18, height: 18 }} />
+                <SvgIconStyle
+                  src={`/assets/icons/login-unprotected/ic_password.svg`}
+                  sx={{ width: 18, height: 18 }}
+                />
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  <Iconify
+                    icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
+                  />
                 </IconButton>
               </InputAdornment>
             ),
@@ -95,7 +118,14 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting} sx={{ mt: 2 }}>
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={isSubmitting}
+        sx={{ mt: 2 }}
+      >
         Login
       </LoadingButton>
     </FormProvider>

@@ -1,4 +1,4 @@
-import axios from '../../utils/axxios';
+import axios from '../../utils/axios';
 
 export const fetchFolder = () => axios.get('api/v1/folders');
 

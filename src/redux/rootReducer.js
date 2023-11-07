@@ -16,6 +16,8 @@ import paymentReducer from './slices/payment';
 import tracking from './slices/tracking';
 import personality from './slices/personality';
 
+import testReducer from './slices/test';
+
 // ----------------------------------------------------------------------
 
 const createNoopStorage = () => ({
@@ -60,6 +62,8 @@ const rootReducer = combineReducers({
   teams,
   tracking,
   personality,
+  
+  test: testReducer,
 });
 
 export { rootPersistConfig, rootReducer };
